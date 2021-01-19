@@ -62,10 +62,12 @@ func resourceDomainRead(ctx context.Context, d *schema.ResourceData, meta interf
 		return diag.Errorf("unable to get newAdminServiceWithScopes: %s", err)
 	}
 
-	_, err = service.Domains.Get(c.customerNumber, d.Id()).Do()
+	gotDomains, err := service.Domains.Get(c.customerNumber, d.Id()).Do()
 	if err != nil {
 		return diag.Errorf("unable to get domain %s: %s", d.Id(), err)
 	}
+
+	d.Set(domainNameKey, gotDomains.DomainName)
 
 	return diag.Diagnostics{}
 }

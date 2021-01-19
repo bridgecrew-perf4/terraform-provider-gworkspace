@@ -73,7 +73,7 @@ func resourceDomainRead(ctx context.Context, d *schema.ResourceData, meta interf
 }
 
 func resourceDomainDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	c:= meta.(*client)
+	c := meta.(*client)
 
 	service, err := c.newAdminServiceWithScopes(ctx, admin.AdminDirectoryDomainScope)
 	if err != nil {

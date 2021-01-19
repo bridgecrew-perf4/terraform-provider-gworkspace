@@ -8,12 +8,11 @@ import (
 
 const (
 	jsonCredsFileKey    = "json_credentials_file"
-	jsonCredsFileEnv	= "GWORKSPACE_JSON_CREDS"
+	jsonCredsFileEnv    = "GWORKSPACE_JSON_CREDS"
 	impersonateEmailKey = "impersonate_email"
 	impersonateEmailEnv = "GWORKSPACE_IMPERSONATE"
 	customerKey         = "customer"
 	customerEnv         = "GWORKSPACE_CUSTOMER"
-
 )
 
 func configure(version string, p *schema.Provider) func(context.Context, *schema.ResourceData) (interface{}, diag.Diagnostics) {
@@ -24,8 +23,8 @@ func configure(version string, p *schema.Provider) func(context.Context, *schema
 
 		client := client{
 			jsonCredentialsFile: d.Get(jsonCredsFileKey).(string),
-			impersonateEmail: d.Get(impersonateEmailKey).(string),
-			customerNumber: d.Get(customerKey).(string),
+			impersonateEmail:    d.Get(impersonateEmailKey).(string),
+			customerNumber:      d.Get(customerKey).(string),
 		}
 		return &client, nil
 	}
@@ -36,6 +35,9 @@ func New(version string) func() *schema.Provider {
 		p := &schema.Provider{
 			ResourcesMap: map[string]*schema.Resource{
 				"gworkspace_domain": resourceDomain(),
+			},
+			DataSourcesMap: map[string]*schema.Resource{
+				"gworkspace_siteverification_token": resourceSiteVerificationToken(),
 			},
 			Schema: map[string]*schema.Schema{
 				jsonCredsFileKey: &schema.Schema{
@@ -51,7 +53,7 @@ func New(version string) func() *schema.Provider {
 					Description: "Email address to impersonate",
 				},
 				customerKey: {
-					Type: 		 schema.TypeString,
+					Type:        schema.TypeString,
 					Required:    true,
 					DefaultFunc: schema.EnvDefaultFunc(customerEnv, nil),
 					Description: "Customer number",

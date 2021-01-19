@@ -19,6 +19,7 @@ func resourceDomain() *schema.Resource {
 		CreateContext: resourceDomainCreate,
 		ReadContext:   resourceDomainRead,
 		DeleteContext: resourceDomainDelete,
+		Importer:      &schema.ResourceImporter{},
 
 		Schema: map[string]*schema.Schema{
 			domainNameKey: {
